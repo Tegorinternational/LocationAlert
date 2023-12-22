@@ -21,11 +21,12 @@ self.addEventListener('install', (event) => {
         caches.open('LNAS')
             .then((cache) => cache.addAll([
                 // List of static resources to cache (e.g., HTML, CSS, JS, images)
+                './',
                 'index.html',
                 'style.css',
                 'sw.js',
                 'icon.jpg',
-                'manifest.json',
+                '/manifest.json',
                 'sound.mp3'  // Include sound file for offline notifications
             ]))
     );
