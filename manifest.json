@@ -5,8 +5,8 @@
   "background_color": "#3182ce", 
   "theme_color": "#3182ce",
   "version": "1.0.1", 
-  "scope": "/",
-  "start_url": "/LocationAlert", 
+  "scope": "/LocationAlert/",
+  "start_url": "/LocationAlert/", 
   "icons": [ 
     { 
       "src": "icon.jpg", 
