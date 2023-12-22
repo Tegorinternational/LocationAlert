@@ -80,7 +80,7 @@
             document.getElementById('goal2Coordinates').value = localStorage.getItem('goal2Coordinates') || '';
         };
 
-        setInterval(getLocation, 5000);
+        setInterval(getLocation, 3000);
 
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js')
@@ -88,17 +88,17 @@
                 .catch(error => console.error('Service Worker registration failed:', error));
         }
 
-        function showNotification(message) {
-            if ('Notification' in window && Notification.permission === 'granted') {
-                new Notification(message, { icon: '/icon.jpg' });
-            } else if ('Notification' in window && Notification.permission !== 'denied') {
-                Notification.requestPermission().then(function (permission) {
-                    if (permission === 'granted') {
-                        new Notification(message, { icon: '/icon.jpg' });
-                    }
-                });
-            }
-        }
+
+      function showNotification(message) {
+        navigator.serviceWorker.ready
+        .then(registration => registration.showNotification(message, { icon: '/icon.jpg' }))
+        .catch(error => console.error('Error showing notification:', error));
+        
+      }
+        
+
+
+
     </script>
 
     <div class="container">
