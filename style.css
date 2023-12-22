@@ -1,0 +1,52 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 10px;
+    font-size: 15pt;
+}
+.container{
+  margin: 5rem 1rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  border: 2px solid #999999;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input, button {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+h1, h2 {
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+}
+
+#distance1, #distance2 {
+    margin-top: 10px;
+}
+
+@media only screen and (min-width: 600px) {
+    /* Add additional styling for larger screens if needed */
+    body {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+}

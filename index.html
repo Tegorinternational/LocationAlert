@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Location Alert</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <script>
+        function showLocationAlert(position) {
+            const goal1Coordinates = localStorage.getItem('goal1Coordinates');
+            const goal2Coordinates = localStorage.getItem('goal2Coordinates');
+
+            if (!goal1Coordinates || !goal2Coordinates) {
+                alert("Please set both goal coordinates.");
+                return;
+            }
+
+            const [goal1Latitude, goal1Longitude] = goal1Coordinates.split(',');
+            const [goal2Latitude, goal2Longitude] = goal2Coordinates.split(',');
+
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+
+            const distanceToGoal1 = calculateDistance(lat, lon, parseFloat(goal1Latitude), parseFloat(goal1Longitude));
+            const distanceToGoal2 = calculateDistance(lat, lon, parseFloat(goal2Latitude), parseFloat(goal2Longitude));
+
+            document.getElementById("distance1").innerText = `Distance to Goal 1: ${distanceToGoal1.toFixed(2)} meters`;
+            document.getElementById("distance2").innerText = `Distance to Goal 2: ${distanceToGoal2.toFixed(2)} meters`;
+
+            if (distanceToGoal1 < 300 || distanceToGoal2 < 300) {
+                showNotification("You are near one of the goal places!");
+            }
+        }
+
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371;
+            const dLat = degToRad(lat2 - lat1);
+            const dLon = degToRad(lon2 - lon1);
+            const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(degToRad(lat1)) * Math.cos(degToRad(lat2)) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            const distance = R * c * 1000; // Distance in meters
+            return distance;
+        }
+
+        function degToRad(deg) {
+            return deg * (Math.PI / 180);
+        }
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showLocationAlert);
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function setGoal(goalNumber) {
+            const coordinates = document.getElementById(`goal${goalNumber}Coordinates`).value;
+            const [latitude, longitude] = coordinates.split(',');
+            const lat = parseFloat(latitude);
+            const lon = parseFloat(longitude);
+
+            if (isNaN(lat) || isNaN(lon)) {
+                alert("Please enter valid latitude and longitude for the goal.");
+                return;
+            }
+
+            localStorage.setItem(`goal${goalNumber}Coordinates`, `${lat},${lon}`);
+            alert(`Goal ${goalNumber} coordinates set successfully.`);
+            document.getElementById(`goal${goalNumber}Coordinates`).value = `${lat},${lon}`;
+        }
+
+        window.onload = function () {
+            getLocation();
+            document.getElementById('goal1Coordinates').value = localStorage.getItem('goal1Coordinates') || '';
+            document.getElementById('goal2Coordinates').value = localStorage.getItem('goal2Coordinates') || '';
+        };
+
+        setInterval(getLocation, 5000);
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js')
+                .then(registration => console.log('Service Worker registered:', registration))
+                .catch(error => console.error('Service Worker registration failed:', error));
+        }
+
+        function showNotification(message) {
+            if ('Notification' in window && Notification.permission === 'granted') {
+                new Notification(message, { icon: '/icon.jpg' });
+            } else if ('Notification' in window && Notification.permission !== 'denied') {
+                Notification.requestPermission().then(function (permission) {
+                    if (permission === 'granted') {
+                        new Notification(message, { icon: '/icon.jpg' });
+                    }
+                });
+            }
+        }
+    </script>
+
+    <div class="container">
+        <!-- Goal 1 input fields -->
+        <label for="goal1Coordinates">Goal 1 Coordinates (comma-separated):</label>
+        <input type="text" id="goal1Coordinates" placeholder="Enter latitude,longitude">
+        <button onclick="setGoal(1)">Set Goal 1</button>
+        <h1 id="distance1"></h1>
+
+        <!-- Goal 2 input fields -->
+        <label for="goal2Coordinates">Goal 2 Coordinates (comma-separated):</label>
+        <input type="text" id="goal2Coordinates" placeholder="Enter latitude,longitude">
+        <button onclick="setGoal(2)">Set Goal 2</button>
+        <h1 id="distance2"></h1>
+    </div>
+</body>
+</html>
