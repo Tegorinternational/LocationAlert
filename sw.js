@@ -25,7 +25,7 @@ const staticFiles = [
   'sw.js',
   'icon.jpg',
   'style.css',
-  'sound.mp3'
+  'sound.mp3',
 ];
 
 // Install event
