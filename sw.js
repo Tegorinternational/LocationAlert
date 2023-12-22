@@ -1,3 +1,18 @@
+
+// Push event (including notification customization)
+self.addEventListener('push', function (event) {
+    const options = {
+        body: event.data.text(),
+        icon: '/icon.jpg',  // Use the cached icon file
+        vibrate: [200, 100, 200, 100, 200, 100, 200],
+        sound: '/sound.mp3'  // Use the cached sound file
+    };
+    event.waitUntil(
+        self.registration.showNotification('Location Alert', options)
+    );
+});
+
+
 'use strict';
 
 const staticCache = 'v1.0.1';
@@ -73,16 +88,3 @@ async function networkFirst(req) {
     return cachedResponse || new Response('Offline Page', { status: 503, statusText: 'Service Unavailable' });
   }
 }
-
-// Push event (including notification customization)
-self.addEventListener('push', function (event) {
-    const options = {
-        body: event.data.text(),
-        icon: '/icon.jpg',  // Use the cached icon file
-        vibrate: [200, 100, 200, 100, 200, 100, 200],
-        sound: '/sound.mp3'  // Use the cached sound file
-    };
-    event.waitUntil(
-        self.registration.showNotification('Location Alert', options)
-    );
-});
