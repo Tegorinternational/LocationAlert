@@ -6,7 +6,7 @@
   "theme_color": "#3182ce",
   "version": "1.0.0", 
   "scope": "/",
-  "start_url": "", 
+  "start_url": "https://tegorinternational.github.io/LocationAlert/", 
   "icons": [ 
     { 
       "src": "icon.jpg", 
