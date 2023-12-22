@@ -91,7 +91,7 @@
 
       function showNotification(message) {
         navigator.serviceWorker.ready
-        .then(registration => registration.showNotification(message, { icon: '/icon.jpg' }))
+        .then(registration => registration.showNotification(message, { icon: 'icon.jpg' }))
         .catch(error => console.error('Error showing notification:', error));
         
       }
