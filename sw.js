@@ -3,9 +3,9 @@
 self.addEventListener('push', function (event) {
     const options = {
         body: event.data.text(),
-        icon: '/icon.jpg',  // Use the cached icon file
+        icon: 'icon.jpg',  // Use the cached icon file
         vibrate: [200, 100, 200, 100, 200, 100, 200],
-        sound: '/sound.mp3'  // Use the cached sound file
+        sound: 'sound.mp3'  // Use the cached sound file
     };
     event.waitUntil(
         self.registration.showNotification('Location Alert', options)
@@ -20,11 +20,12 @@ const dynamicCache = 'dynamic-v1.0.1';
 
 const staticFiles = [
   './',
-  '/index.html',
-  '/manifest.json',
-  '/sw.js',
-  '/icon.jpg',
-  '/sound.mp3'
+  'index.html',
+  'manifest.json',
+  'sw.js',
+  'icon.jpg',
+  'style.css',
+  'sound.mp3'
 ];
 
 // Install event
